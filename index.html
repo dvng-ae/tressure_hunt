@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="index.css">
+    <title>Treasure Hunt</title>
+</head>
+<body>
+    
+<div class="login">
+    <div class="header"></div>
+
+    <div class="login-content">
+        <h1>The Quest Begins</h1>
+        <p>Enter your credentials to start tracking clues and uncovering secrets.</p>
+    </div>
+    <div class="roll">
+        <div class="slider"></div>
+        <button class="tab1">USER</button>
+        <button class="tab2">ADMIN</button>
+    </div>
+   <form action="login-form">
+    <div class="user-details">
+        <div class="input-box">
+            <span class="icon">👤</span>
+            <input type="text" placeholder="Hunter Name" required>
+        </div>
+    </div>
+
+    <div class="user-details">
+        <div class="input-box">
+            <span class="icon">🔒</span>
+            <input type="password" placeholder="Secret Access Key" required>
+        </div>
+    </div>
+</form>
+
+<div class="button">
+    <button type="submit" class="signin-btn"> Sign in</button>
+</div>
+</div>
+
+</body>
+
+<script>
+    const buttons = document.querySelectorAll('.tab1, .tab2');
+    const slider = document.querySelector('.slider');
+
+    buttons.forEach((btn, index) => {
+        btn.addEventListener('click', () => {
+
+            buttons.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            slider.style.transform = `translate(${index * 100}%, -50%)`;
+        });
+    });
+</script>
+
+
+</html>
