@@ -5,6 +5,9 @@ body{
     align-items: center;
     min-height: 100vh;
 }
+.top{
+    color: #ffffff;
+}
 .login{
     background-color: #1a160b;
     width: 400px;
@@ -14,13 +17,13 @@ body{
 }
 .header{
     height: 220px;
-    background-image: url('#.jpg');
+    background-image: url('/treasure-hunt-removebg-preview.png');
     background-size: cover;
     background-position: center;
 }
 .login-content{
-    padding: 30px;
-    color: #f5c400;
+    padding: 20px;
+    color: #ffffff;
 }
 h1{
     font-size: 24px;
