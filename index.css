@@ -17,7 +17,7 @@ body{
 }
 .header{
     height: 220px;
-    background-image: url('./treasure-hunt-removebg-preview.png');
+    background-image: url('treasure-hunt-removebg-preview.png');
     background-size: cover;
     background-position: center;
 }
