@@ -20,21 +20,21 @@
     </div>
     <div class="roll">
         <div class="slider"></div>
-        <button class="tab1">USER</button>
-        <button class="tab2">ADMIN</button>
+        <button class="tab1" type="button">USER</button>
+        <button class="tab2" type="button">ADMIN</button>
     </div>
-   <form action="./room.html">
+   <form id="loginForm">
     <div class="user-details">
         <div class="input-box">
             <span class="icon">👤</span>
-            <input type="text" placeholder="Hunter Name" required>
+            <input type="text" id="username" placeholder="Hunter Name" required>
         </div>
     </div>
 
     <div class="user-details">
         <div class="input-box">
             <span class="icon">🔒</span>
-            <input type="password" placeholder="Secret Access Key" required>
+            <input type="password" id="password" placeholder="Secret Access Key" required>
         </div>
     </div>
 
@@ -45,24 +45,33 @@
 
 
 
+
 </div>
 
 </body>
 
 <script>
-    const buttons = document.querySelectorAll('.tab1, .tab2');
-    const slider = document.querySelector('.slider');
+let selectedRole = "user"; // default
 
-    buttons.forEach((btn, index) => {
-        btn.addEventListener('click', () => {
+document.querySelector(".tab1").addEventListener("click", () => {
+    selectedRole = "user";
+});
 
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
+document.querySelector(".tab2").addEventListener("click", () => {
+    selectedRole = "admin";
+});
 
-            slider.style.transform = `translate(${index * 100}%, -50%)`;
-        });
-    });
+document.getElementById("loginForm").addEventListener("submit", function (e) {
+    e.preventDefault(); // STOP form default behavior
+
+    if (selectedRole === "user") {
+        window.location.href = "./user/room.html";
+    } else {
+        window.location.href = "./admin/admin_room.html";
+    }
+});
 </script>
+
 
 
 </html>
