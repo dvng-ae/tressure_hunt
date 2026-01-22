@@ -2,31 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ADMIN ROOM</title>
+  <title>Admin Room</title>
   <link rel="stylesheet" href="admin_room.css">
 </head>
 <body>
 
-  <h1 class="title">ADMIN ROOM</h1>
+<h1 class="title">ADMIN ROOM</h1>
 
-  <!-- Input box -->
-  <input
-    type="text"
-    id="roomInput"
-    class="input-box"
-    placeholder="Enter room name"
-  >
+<input type="text" id="roomInput" class="input-box" placeholder="Enter room name">
 
-  <!-- Create Room Button -->
-  <button class="btn" type="button" onclick="createRoom()">
-    CREATE ROOM
-  </button>
+<button class="btn" onclick="createRoom()">CREATE ROOM</button>
 
-  <h3>Active Rooms</h3>
+<h3>Active Rooms</h3>
+<div id="roomsContainer"></div>
 
-  <div id="roomsContainer"></div>
-
-  <script src="admin_room.js"></script>
+<script src="admin_room.js"></script>
 </body>
 </html>
