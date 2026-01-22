@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="index.css">
     <title>Treasure Hunt</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    
+
 <div class="login">
     <h1 class="top">Treasure Hunt</h1>
+
     <div class="header">
         <img src="./treasure-hunt-removebg-preview.png" width="100%">
     </div>
@@ -18,60 +19,58 @@
         <h1>The Quest Begins</h1>
         <p>Enter your credentials to start tracking clues and uncovering secrets.</p>
     </div>
+
+    <!-- TOGGLE -->
     <div class="roll">
         <div class="slider"></div>
-        <button class="tab1" type="button">USER</button>
-        <button class="tab2" type="button">ADMIN</button>
+        <button type="button" class="tab1 active">USER</button>
+        <button type="button" class="tab2">ADMIN</button>
     </div>
-   <form id="loginForm">
-    <div class="user-details">
+
+    <!-- FORM -->
+    <form id="loginForm">
         <div class="input-box">
             <span class="icon">👤</span>
-            <input type="text" id="username" placeholder="Hunter Name" required>
+            <input type="text" placeholder="Hunter Name" required>
         </div>
-    </div>
 
-    <div class="user-details">
         <div class="input-box">
             <span class="icon">🔒</span>
-            <input type="password" id="password" placeholder="Secret Access Key" required>
+            <input type="password" placeholder="Secret Access Key" required>
         </div>
-    </div>
 
-    <div class="button">
         <button type="submit" class="signin-btn">Sign in</button>
-    </div>
-</form>
-
-
-
-
+    </form>
 </div>
 
-</body>
-
 <script>
-let selectedRole = "user"; // default
+    const userBtn = document.querySelector(".tab1");
+    const adminBtn = document.querySelector(".tab2");
+    const slider = document.querySelector(".slider");
 
-document.querySelector(".tab1").addEventListener("click", () => {
-    selectedRole = "user";
-});
+    userBtn.onclick = () => {
+        userBtn.classList.add("active");
+        adminBtn.classList.remove("active");
+        slider.style.transform = "translateX(0%)";
+    };
 
-document.querySelector(".tab2").addEventListener("click", () => {
-    selectedRole = "admin";
-});
+    adminBtn.onclick = () => {
+        adminBtn.classList.add("active");
+        userBtn.classList.remove("active");
+        slider.style.transform = "translateX(100%)";
+    };
 
-document.getElementById("loginForm").addEventListener("submit", function (e) {
-    e.preventDefault(); // STOP form default behavior
+    document.getElementById("loginForm").onsubmit = function (e) {
+        e.preventDefault();
 
-    if (selectedRole === "user") {
-        window.location.href = "./user/room.html";
-    } else {
-        window.location.href = "./admin/admin_room.html";
-    }
-});
+        // ✅ RELIABLE CHECK
+        if (userBtn.classList.contains("active")) {
+            window.location.href = "./user/room.html";
+        } else {
+            window.location.href = "./admin/admin_room.html";
+        }
+    };
 </script>
 
-
-
+</body>
 </html>
