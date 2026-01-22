@@ -1,115 +1,109 @@
-body{
-    background-color: white;
-    justify-content: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #111;
     display: flex;
+    justify-content: center;
     align-items: center;
     min-height: 100vh;
 }
-.top{
-    color: #ffffff;
-}
-.login{
-    background-color: #1a160b;
-    width: 400px;
-    border-radius: 10px;
-    overflow: hidden;
-    min-height: 100vh;
-}
-.header{
-    height: 220px;
-    background-image: url('#treasure-hunt-removebg-preview.png');
-    background-size: cover;
-    background-position: center;
-}
-.login-content{
+
+.login {
+    width: 360px;
+    background: #1a160b;
     padding: 20px;
-    color: #ffffff;
+    border-radius: 16px;
+    color: white;
 }
-h1{
-    font-size: 24px;
-    margin-bottom: 25px;
+
+.top {
     text-align: center;
+    margin-bottom: 15px;
 }
-p{
-    font-size: 14px;
+
+.header {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.login-content h1 {
+    font-size: 22px;
+}
+
+.login-content p {
+    font-size: 13px;
+    color: #ccc;
+    margin-bottom: 15px;
+}
+
+/* ===== TOGGLE ===== */
+.roll {
+    position: relative;
+    display: flex;
+    background: #111;
+    border-radius: 30px;
+    overflow: hidden;
     margin-bottom: 20px;
 }
-.roll{
-    position: relative;
-    width: 260px;
-    height: 45px; /* FIXED */
-    margin: 0 auto 30px;
-    background-color: #262112;
-    border-radius: 30px;
-    display: flex;
-    align-items: center;
-    padding: 4px;
-    margin-bottom: 40px;
-}
 
-.slider{
+.slider {
     position: absolute;
     width: 50%;
-    height: 80%;
-    background-color: #f5c400;
-    border-radius: 25px;
-    left: 6px;
-    top: 50%;
-    transform: translate(0, -50%);
+    height: 100%;
+    background: #f5c400;
+    border-radius: 30px;
     transition: 0.3s ease;
-}
-
-.tab1,.tab2{
-    flex: 1;
-    background: none;
-    border: none;
-    color: #bfae5a;
-    font-weight: bold;
-    cursor: pointer;
+    pointer-events: none; /* ⭐ FIX */
     z-index: 1;
 }
 
-.tab1.active,
-.tab2.active{
-    color: #1a160b;
+.tab1,
+.tab2 {
+    width: 50%;
+    padding: 12px 0;
+    border: none;
+    background: transparent;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    z-index: 2;
 }
 
-.user-details{
-    display: flex;
-    justify-content: center;
-    width: 100%;
-    margin-bottom: 25px;
+.tab1.active,
+.tab2.active {
+    color: black;
 }
-.input-box{
-    width: 90%;
+
+/* ===== FORM ===== */
+.input-box {
     display: flex;
     align-items: center;
-    background-color: #262112;
-    border: 1px solid #3d351d;
-    border-radius: 30px;
-    padding: 0 15px;
+    background: #111;
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 12px;
 }
-.input-box input{
-    flex: 1;
-    padding: 14px 10px;
+
+.input-box input {
     background: transparent;
     border: none;
     outline: none;
     color: white;
-    font-size: 14px;
+    width: 100%;
+    margin-left: 8px;
 }
-.button{
-    justify-content: center;
-    display: flex;
-}
-.signin-btn{
-    width: 70%;
-    padding: 14px;
-    background-color: #f5c400;
+
+.signin-btn {
+    width: 100%;
+    padding: 12px;
+    border-radius: 20px;
+    background: #f5c400;
     border: none;
-    border-radius: 30px;
     font-weight: bold;
-    color: #1a160b;
     cursor: pointer;
-    font-size: 15px;
 }
