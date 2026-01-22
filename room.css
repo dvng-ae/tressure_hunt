@@ -26,19 +26,14 @@ body {
     text-align: center;   /* 👈 center text */
 }
 .title {
-    font-family: 'Pirata One', cursive; /* if using treasure font */
+    font-family: 'Pirata One', cursive;
     font-size: 36px;
+    font-weight: bold;
     color: #5a3a1a;
     letter-spacing: 2px;
     text-shadow: 
         2px 2px 0 #caa36a,
         4px 4px 0 #8b5a2b;
-}
-
-
-.title {
-    font-size: 16px;
-    font-weight: bold;
 }
 
 /* Content */
