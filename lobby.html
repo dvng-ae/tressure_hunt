@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Lobby</title>
+  <link rel="stylesheet" href="lobby.css">
+</head>
+<body>
+
+<div class="lobby">
+
+  <header>
+    <h1>Let's Hunt </h1>
+    <div>Players: 1/16</div>
+  </header>
+  
+
+  <button id="openCreateModal" class="create-btn">
+    + Create a Team
+  </button>
+
+  <h3>Active Teams</h3>
+  <div id="teams"></div>
+
+  <button id="startGame" class="start-btn" disabled>
+    START GAME
+  </button>
+
+</div>
+
+<!-- CREATE TEAM MODAL -->
+<div id="teamModal" class="modal hidden">
+  <div class="modal-content">
+    <h3>Create Team</h3>
+
+    <input id="teamName" placeholder="Team Name">
+    
+    <select id="maxPlayers">
+      <option value="2">2 Players</option>
+      <option value="3">3 Players</option>
+      <option value="4" selected>4 Players</option>
+      <option value="5">5 Players</option>
+    </select>
+
+    <button id="createTeamBtn">Create Team</button>
+  </div>
+</div>
+
+<script src="lobby.js"></script>
+</body>
+</html>

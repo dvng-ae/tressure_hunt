@@ -1,0 +1,129 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 20px;
+  background: #0e0c05;
+  color: white;
+}
+
+.lobby {
+  max-width: 420px;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.create-btn {
+  width: 100%;
+  padding: 14px;
+  background: #f7c600;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.team {
+  border: 2px solid #f7c600;
+  border-radius: 15px;
+  padding: 15px;
+  margin: 15px 0;
+}
+
+.team-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.badge {
+  font-size: 12px;
+  color: #f7c600;
+}
+
+.ready {
+  color: #00ff88;
+  font-weight: bold;
+  margin-top: 5px;
+}
+
+.join-btn {
+  background: #f7c600;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 20px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.remove-btn {
+  background: #ff4d4d;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 15px;
+  margin-top: 10px;
+  color: white;
+  cursor: pointer;
+}
+
+.start-btn {
+  width: 100%;
+  padding: 14px;
+  margin-top: 20px;
+  border-radius: 25px;
+  border: none;
+  background: #444;
+  color: #999;
+  font-weight: bold;
+}
+
+.start-btn.active {
+  background: #f7c600;
+  color: #000;
+}
+
+/* MODAL */
+.modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hidden {
+  display: none;
+}
+
+.modal-content {
+  background: #1a1608;
+  padding: 20px;
+  border-radius: 15px;
+  width: 300px;
+}
+
+.modal-content input,
+.modal-content select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  border: none;
+}
+
+.modal-content button {
+  width: 100%;
+  padding: 10px;
+  background: #f7c600;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+}
