@@ -6,7 +6,6 @@
 }
 
 body {
-<<<<<<< HEAD
     background-color: #111;
     display: flex;
     justify-content: center;
@@ -15,7 +14,7 @@ body {
 }
 
 /* Card container */
-=======
+.container {
     background-color: #1a160b;
     display: flex;
     justify-content: center;
@@ -23,28 +22,22 @@ body {
 }
 
 /* Card */
->>>>>>> 970f1464f5ddbe2c9f2b84d6381f768716ea6e53
 .card {
     width: 420px;
     padding: 22px;
     border-radius: 14px;
-<<<<<<< HEAD
     background: linear-gradient(180deg, #2a1f10, #0f0b05);
-=======
->>>>>>> 970f1464f5ddbe2c9f2b84d6381f768716ea6e53
     color: white;
 }
 
 /* Header */
 .header {
     margin-bottom: 22px;
-<<<<<<< HEAD
 }
 
 .title {
     font-size: 16px;
     font-weight: bold;
-=======
     text-align: center;   /* 👈 center text */
 }
 .title {
@@ -56,7 +49,6 @@ body {
     text-shadow: 
         2px 2px 0 #caa36a,
         4px 4px 0 #8b5a2b;
->>>>>>> 970f1464f5ddbe2c9f2b84d6381f768716ea6e53
 }
 
 /* Content */
@@ -69,13 +61,10 @@ body {
 .content p {
     font-size: 14px;
     color: #cfcfcf;
-<<<<<<< HEAD
-=======
 }
 .content{
     border: #bfae5a;
     border-radius: 15px;
     border: 2px solid #f5c400;   
     padding: 15px;
->>>>>>> 970f1464f5ddbe2c9f2b84d6381f768716ea6e53
 }
