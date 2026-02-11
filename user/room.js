@@ -1,39 +1,33 @@
-window.onload = loadAdminRooms;
+window.addEventListener("load", loadRooms);
 
-function loadAdminRooms() {
-    const roomsContainer = document.getElementById("roomsContainer");
-    roomsContainer.innerHTML = "";
+function loadRooms() {
+    fetch("../api/get_rooms.php")
+        .then(res => res.json())
+        .then(rooms => {
+            const container = document.getElementById("roomsContainer");
+            const count = document.getElementById("roomCount");
 
-    // Get rooms created by admin
-    const rooms = JSON.parse(localStorage.getItem("rooms")) || [];
+            container.innerHTML = "";
 
-    if (rooms.length === 0) {
-        roomsContainer.innerHTML =
-            "<p style='color:#aaa;'>No active rooms available</p>";
-        return;
-    }
+            if (!rooms || rooms.length === 0) {
+                container.innerHTML = "<p>No rooms available</p>";
+                count.textContent = "";
+                return;
+            }
 
-    rooms.forEach(roomName => {
-        const roomDiv = document.createElement("div");
-        roomDiv.className = "room";
-        roomDiv.textContent = roomName;
+            rooms.forEach(room => {
+                const div = document.createElement("div");
+                div.className = "room";
+                div.textContent = room.room_name;
 
-        roomDiv.onclick = () => joinRoom(roomName);
+                div.onclick = () => {
+                    localStorage.setItem("joinedRoomId", room.id);
+                    window.location.href = "team.html";
+                };
 
-        roomsContainer.appendChild(roomDiv);
-    });
+                container.appendChild(div);
+            });
 
-    // Optional hunter count (example logic)
-    document.getElementById("hunterCount").innerText =
-        `${rooms.length * 5} hunters are currently active`;
-}
-
-function joinRoom(roomName) {
-    // Save joined room
-    localStorage.setItem("joinedRoom", roomName);
-
-    alert("Joined room: " + roomName);
-
-    // NEXT PAGE (later)
-    // window.location.href = "team_page.html";
+            count.textContent = `${rooms.length} rooms available`;
+        });
 }

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+<div class="login">
+    <div class="logo">
+        <img src="treasure-hunt-removebg-preview.png" alt="Treasure Hunt">
+    </div>
+
+    <div class="login-content">
+        <h1>Join The Quest</h1>
+        <p>Create your account to start tracking clues.</p>
+    </div>
+
+    <form id="signupForm">
+        <div class="input-box">
+            <input id="username" type="text" placeholder="Username" required>
+        </div>
+
+        <div class="input-box">
+            <input id="password" type="password" placeholder="Password" required>
+        </div>
+
+        <div class="input-box">
+            <input id="confirm" type="password" placeholder="Confirm Password" required>
+        </div>
+
+        <button class="signin-btn" type="submit">Sign Up</button>
+    </form>
+
+    <div id="msg" style="text-align:center;margin-top:10px;"></div>
+
+    <div class="form-footer">
+        Already a member?
+        <a href="index.php" class="signup-link">Sign in here</a>
+    </div>
+</div>
+
+<script>
+document.getElementById("signupForm").onsubmit = async (e) => {
+    e.preventDefault();
+
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const confirm = document.getElementById("confirm").value.trim();
+
+    // Frontend check
+    if (password !== confirm) {
+        document.getElementById("msg").innerText = "Passwords do not match";
+        return;
+    }
+
+    const res = await fetch("api/register.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: `username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}&confirmPassword=${encodeURIComponent(confirm)}`
+    });
+
+    const data = await res.json();
+
+    if (data.success) {
+        document.getElementById("msg").innerText = "Signup successful!";
+        setTimeout(() => {
+            window.location = "index.php";
+        }, 1500);
+    } else {
+        document.getElementById("msg").innerText = data.error;
+    }
+};
+</script>
+
+</body>
+</html>

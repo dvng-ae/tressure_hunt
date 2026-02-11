@@ -2,64 +2,67 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: "Segoe UI", Arial, sans-serif;
 }
 
 body {
-    background: #111;
+    background: radial-gradient(circle at top, #1a1608, #000);
+    min-height: 520px; 
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
 .login {
     width: 360px;
-    background: #1a160b;
-    padding: 20px;
-    border-radius: 16px;
+    background: linear-gradient(180deg, #1f1a0d, #0e0c05);
+    padding: 22px;
+    border-radius: 22px;
     color: white;
+    box-shadow:
+        0 0 40px rgba(0,0,0,0.9),
+        inset 0 0 20px rgba(247,198,0,0.05);
 }
 
-.top {
+.logo {
     text-align: center;
     margin-bottom: 15px;
 }
 
-.header {
-    text-align: center;
-    margin-bottom: 15px;
+.logo img {
+    width: 300px;          /* increase logo size */
+    height: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 0 18px rgba(247,198,0,0.45));
 }
 
 .login-content h1 {
     font-size: 22px;
+    margin-bottom: 6px;
 }
 
 .login-content p {
     font-size: 13px;
-    color: #ccc;
-    margin-bottom: 15px;
+    color: #cfcfcf;
+    margin-bottom: 18px;
 }
 
-/* ===== TOGGLE ===== */
 .roll {
     position: relative;
     display: flex;
     background: #111;
     border-radius: 30px;
     overflow: hidden;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .slider {
     position: absolute;
     width: 50%;
     height: 100%;
-    background: #f5c400;
+    background: linear-gradient(180deg, #f7c600, #d6a800);
     border-radius: 30px;
-    transition: 0.3s ease;
-    pointer-events: none; /* ⭐ FIX */
-    z-index: 1;
+    transition: transform 0.35s ease;
 }
 
 .tab1,
@@ -68,42 +71,45 @@ body {
     padding: 12px 0;
     border: none;
     background: transparent;
-    color: white;
+    color: #eee;
     font-weight: bold;
     cursor: pointer;
     z-index: 2;
 }
 
-.tab1.active,
-.tab2.active {
-    color: black;
-}
-
-/* ===== FORM ===== */
 .input-box {
-    display: flex;
-    align-items: center;
     background: #111;
-    padding: 10px;
-    border-radius: 10px;
+    padding: 12px;
+    border-radius: 14px;
     margin-bottom: 12px;
 }
 
 .input-box input {
+    width: 100%;
     background: transparent;
     border: none;
     outline: none;
     color: white;
-    width: 100%;
-    margin-left: 8px;
 }
 
 .signin-btn {
     width: 100%;
-    padding: 12px;
-    border-radius: 20px;
-    background: #f5c400;
+    padding: 14px;
+    border-radius: 30px;
+    background: linear-gradient(180deg, #f7c600, #d6a800);
     border: none;
     font-weight: bold;
     cursor: pointer;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 14px;
+    font-size: 13px;
+}
+
+.signup-link {
+    color: #f7c600;
+    text-decoration: none;
+    font-weight: bold;
 }

@@ -1,43 +1,57 @@
 body {
-  background: black;
-  color: white;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    background: black;
+    color: white;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    padding-top: 60px;
 }
 
-.input-box, .btn {
-  width: 320px;
-  height: 52px;
-  border-radius: 25px;
-  margin-bottom: 12px;
+.title {
+    margin-bottom: 40px;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
 }
 
 .input-box {
-  border: 2px solid #f7c600;
-  background: #111;
-  color: white;
-  text-align: center;
+    width: 320px;
+    height: 50px;
+    border-radius: 25px;
+    border: 2px solid #f7c600;
+    background: #111;
+    color: white;
+    text-align: center;
+    font-size: 16px;
 }
 
 .btn {
-  background: #f7c600;
-  border: none;
-  font-weight: bold;
-  cursor: pointer;
+    width: 320px;
+    height: 50px;
+    border-radius: 25px;
+    border: none;
+    background: #f7c600;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.section-title {
+    margin-top: 40px;
+}
+
+#roomsContainer {
+    margin-top: 20px;
 }
 
 .room {
-  width: 320px;
-  background: #222;
-  margin-top: 10px;
-  padding: 12px;
-  border-radius: 10px;
-  display: flex;
-  justify-content: space-between;
-}
-
-.delete-btn {
-  color: red;
-  cursor: pointer;
+    width: 320px;
+    margin: 10px auto;
+    padding: 12px;
+    background: #222;
+    border-radius: 12px;
+    font-size: 16px;
 }

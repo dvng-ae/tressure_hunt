@@ -1,85 +1,48 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
 body {
-    background-color: #111;
+    margin: 0;
+    background: radial-gradient(circle at top, #1a1608, #000);
+    min-height: 100vh;
     display: flex;
     justify-content: center;
-    height: 100vh;
-}
-
-/* Card */
-.card {
-    width: 420px;
-    padding: 22px;
-    border-radius: 14px;
-    background: linear-gradient(180deg, #2a1f10, #0f0b05);
+    align-items: center;
+    font-family: Arial, sans-serif;
     color: white;
 }
 
-/* Header */
-.header {
-    margin-bottom: 22px;
-}
-
-.title {
-    font-family: 'Pirata One', cursive;
-    font-size: 36px;
-    font-weight: bold;
-    color: #5a3a1a;
-    letter-spacing: 2px;
+.card {
+    width: 400px;
+    background: linear-gradient(180deg, #1f1a0d, #0e0c05);
+    min-height: 520px;
+    padding: 30px;
+    border-radius: 20px;
     text-align: center;
-    text-shadow: 
-        2px 2px 0 #caa36a,
-        4px 4px 0 #8b5a2b;
+    box-shadow:
+        0 0 40px rgba(0,0,0,0.9),
+        inset 0 0 20px rgba(247,198,0,0.05);
 }
 
-/* Content */
-.content {
-    border-radius: 15px;
-    border: 2px solid #f5c400;   
-    padding: 15px;
-}
-
-.content h1 {
-    font-size: 30px;
+h1 {
     margin-bottom: 10px;
 }
 
-.content p {
+#roomCount {
+    color: #ccc;
     font-size: 14px;
-    color: #cfcfcf;
+    margin-bottom: 20px;
 }
 
-/* ========== ROOMS SECTION ========== */
-.rooms-section {
-    margin-top: 20px;
-}
-
-.rooms-section h3 {
-    font-size: 16px;
-    margin-bottom: 10px;
-    color: #f5c400;
-}
-
-/* Room card */
 .room {
-    background-color: #1a160b;
-    border: 2px solid #f5c400;
-    border-radius: 10px;
-    padding: 12px;
-    margin-bottom: 8px;
-    text-align: center;
+    background: #111;
+    padding: 14px;
+    border-radius: 12px;
+    margin-top: 12px;
     cursor: pointer;
-    font-weight: bold;
-    transition: 0.2s;
+    transition: 0.25s;
+    border: 1px solid #333;
 }
 
 .room:hover {
-    background-color: #f5c400;
+    background: linear-gradient(180deg, #f7c600, #d6a800);
     color: black;
+    font-weight: bold;
 }

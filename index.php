@@ -1,18 +1,56 @@
+<?php
+session_start();
+
+$error = "";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+    if (isset($_POST["admin_login"])) {
+        if ($_POST["username"]=="Admin" && $_POST["key"]=="kuc123") {
+            $_SESSION["admin"]=true;
+            header("Location: admin/admin_room.php");
+            exit;
+        } else {
+            $error = "Invalid admin credentials";
+        }
+    }
+
+    if (isset($_POST["user_login"])) {
+        require "api/db.php";
+        $u=$_POST["username"];
+        $p=$_POST["password"];
+
+        $stmt=$conn->prepare("SELECT id,password FROM users WHERE username=?");
+        $stmt->bind_param("s",$u);
+        $stmt->execute();
+        $res=$stmt->get_result();
+
+        if($row=$res->fetch_assoc()){
+            if(password_verify($p,$row["password"])){
+                $_SESSION["user_id"]=$row["id"];
+                header("Location: user/room.html");
+                exit;
+            } else {
+                $error = "Wrong password";
+            }
+        } else {
+            $error = "User not found";
+        }
+    }
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Treasure Hunt</title>
+    <title>Login - Treasure Hunt</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
 
 <div class="login">
-    <h1 class="top">Treasure Hunt</h1>
 
-    <div class="header">
-        <img src="./treasure-hunt-removebg-preview.png" width="100%">
+    <div class="logo">
+        <img src="./treasure2.png" alt="Treasure Hunt Logo" width="100%">
     </div>
 
     <div class="login-content">
@@ -20,56 +58,62 @@
         <p>Enter your credentials to start tracking clues and uncovering secrets.</p>
     </div>
 
-    <!-- TOGGLE -->
     <div class="roll">
-        <div class="slider"></div>
-        <button type="button" class="tab1 active">USER</button>
-        <button type="button" class="tab2">ADMIN</button>
+        <div class="slider" id="slider"></div>
+        <button class="tab1" id="userTab">USER</button>
+        <button class="tab2" id="adminTab">ADMIN</button>
     </div>
 
-    <!-- FORM -->
-    <form id="loginForm">
+    <!-- USER FORM -->
+    <form method="POST" id="userForm">
         <div class="input-box">
-            <span class="icon">👤</span>
-            <input type="text" placeholder="Hunter Name" required>
+            <input name="username" placeholder="Username" required>
         </div>
-
         <div class="input-box">
-            <span class="icon">🔒</span>
-            <input type="password" placeholder="Secret Access Key" required>
+            <input name="password" type="password" placeholder="Password" required>
         </div>
-
-        <button type="submit" class="signin-btn">Sign in</button>
+        <button name="user_login" class="signin-btn">Sign In</button>
     </form>
+
+    <!-- ADMIN FORM -->
+    <form method="POST" id="adminForm" style="display:none;">
+        <div class="input-box">
+            <input name="username" placeholder="Admin Username" required>
+        </div>
+        <div class="input-box">
+            <input name="key" type="password" placeholder="Secret Access Key" required>
+        </div>
+        <button name="admin_login" class="signin-btn">Sign In</button>
+    </form>
+
+    <div class="form-footer">
+        Not a member? <a href="signup.html" class="signup-link">Sign up now</a>
+    </div>
+
+    <?php if ($error): ?>
+        <div style="color:red;text-align:center;"><?php echo $error; ?></div>
+    <?php endif; ?>
+
 </div>
 
 <script>
-    const userBtn = document.querySelector(".tab1");
-    const adminBtn = document.querySelector(".tab2");
-    const slider = document.querySelector(".slider");
+const userTab = document.getElementById("userTab");
+const adminTab = document.getElementById("adminTab");
+const slider = document.getElementById("slider");
+const userForm = document.getElementById("userForm");
+const adminForm = document.getElementById("adminForm");
 
-    userBtn.onclick = () => {
-        userBtn.classList.add("active");
-        adminBtn.classList.remove("active");
-        slider.style.transform = "translateX(0%)";
-    };
+userTab.onclick = () => {
+    slider.style.transform = "translateX(0)";
+    userForm.style.display = "block";
+    adminForm.style.display = "none";
+};
 
-    adminBtn.onclick = () => {
-        adminBtn.classList.add("active");
-        userBtn.classList.remove("active");
-        slider.style.transform = "translateX(100%)";
-    };
-
-    document.getElementById("loginForm").onsubmit = function (e) {
-        e.preventDefault();
-
-        // ✅ RELIABLE CHECK
-        if (userBtn.classList.contains("active")) {
-            window.location.href = "./user/room.html";
-        } else {
-            window.location.href = "./admin/admin_room.html";
-        }
-    };
+adminTab.onclick = () => {
+    slider.style.transform = "translateX(100%)";
+    userForm.style.display = "none";
+    adminForm.style.display = "block";
+};
 </script>
 
 </body>
