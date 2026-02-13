@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Treasure Hunt Scanner</title>
+
+<script src="https://unpkg.com/html5-qrcode"></script>
+<link rel="stylesheet" href="scanner.css">
+
+</head>
+<body>
+
+<div class="card">
+
+  <h1>Treasure Hunt Scanner</h1>
+
+  <!-- PROGRESS -->
+  <div class="progress-box">
+    <span id="progressText">0 / 10 Completed</span>
+  </div>
+
+  <!-- SCANNER AREA -->
+  <div id="reader"></div>
+
+  <!-- STATUS -->
+  <div class="status-box">
+    <p id="scanStatus">Waiting to scan...</p>
+  </div>
+
+  <!-- BUTTONS -->
+  <div class="button-group">
+    <button id="startBtn">Start Scanner</button>
+    <button id="stopBtn">Stop Scanner</button>
+  </div>
+
+</div>
+
+<script src="scanner.js"></script>
+</body>
+</html>

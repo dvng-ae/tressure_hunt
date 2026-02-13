@@ -1,0 +1,65 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: radial-gradient(circle at top, #1a1608, #000);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: #f5c542;
+}
+
+.card {
+  width: 380px;
+  padding: 20px;
+  background: linear-gradient(180deg, #1f1a0d, #0e0c05);
+  border-radius: 20px;
+  text-align: center;
+  box-shadow: 0 0 40px rgba(0,0,0,0.8);
+}
+
+h1 {
+  margin-bottom: 15px;
+}
+
+.progress-box {
+  margin-bottom: 15px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+#reader {
+  width: 100%;
+  margin: 15px 0;
+  border: 2px solid #f5c542;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.status-box {
+  min-height: 30px;
+  margin-bottom: 15px;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+}
+
+button {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 18px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+#startBtn {
+  background: linear-gradient(180deg, #f7c600, #d6a800);
+}
+
+#stopBtn {
+  background: red;
+  color: white;
+}

@@ -8,6 +8,7 @@ if (!roomId) {
 const teamList = document.getElementById("teamList");
 const createTeamBtn = document.getElementById("createTeamBtn");
 const teamNameInput = document.getElementById("teamNameInput");
+const startBtn = document.getElementById("startGameBtn");
 
 createTeamBtn.onclick = () => {
   const name = teamNameInput.value.trim();
@@ -18,7 +19,6 @@ createTeamBtn.onclick = () => {
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: `room_id=${roomId}&team_name=${encodeURIComponent(name)}`
   })
-  .then(res => res.text())
   .then(() => {
     teamNameInput.value = "";
     loadTeams();
@@ -88,5 +88,21 @@ function loadTeams() {
       });
     });
 }
+
+startBtn.onclick = () => {
+
+  const roomId = localStorage.getItem("joinedRoomId");
+
+  if (!roomId) {
+    alert("No room selected!");
+    return;
+  }
+
+  // Optional: store team id also if needed later
+  // localStorage.setItem("teamId", selectedTeamId);
+
+  window.location.href = "scanner.html";
+};
+
 
 loadTeams();
