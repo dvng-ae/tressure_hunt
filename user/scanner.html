@@ -1,41 +1,50 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Treasure Hunt Scanner</title>
 
-<script src="https://unpkg.com/html5-qrcode"></script>
 <link rel="stylesheet" href="scanner.css">
 
+<script src="https://unpkg.com/html5-qrcode"></script>
+
 </head>
+
 <body>
 
 <div class="card">
 
-  <h1>Treasure Hunt Scanner</h1>
+<h1>Treasure Hunt Scanner</h1>
 
-  <!-- PROGRESS -->
-  <div class="progress-box">
-    <span id="progressText">0 / 10 Completed</span>
-  </div>
+<div id="progress">0 / 0 completed</div>
 
-  <!-- SCANNER AREA -->
-  <div id="reader"></div>
+<div id="status">Scanner Ready</div>
 
-  <!-- STATUS -->
-  <div class="status-box">
-    <p id="scanStatus">Waiting to scan...</p>
-  </div>
+<div id="reader"></div>
 
-  <!-- BUTTONS -->
-  <div class="button-group">
-    <button id="startBtn">Start Scanner</button>
-    <button id="stopBtn">Stop Scanner</button>
-  </div>
+<br>
+
+<button id="startBtn">Start Scanner</button>
+
+<button id="stopBtn">Stop Scanner</button>
+
+<br><br>
+
+<div id="currentClue">
+Current clue will appear here
+</div>
+
+<br>
+
+<div id="cluesContainer"></div>
 
 </div>
 
 <script src="scanner.js"></script>
+
 </body>
+
 </html>

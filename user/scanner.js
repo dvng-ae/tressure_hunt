@@ -1,75 +1,118 @@
-let html5QrCode;
-let isScanning = false;
-let totalTasks = 10;
+// Get team_id from localStorage (set when user clicked Start on team page)
+const teamId = localStorage.getItem("teamId");
+const roomId = localStorage.getItem("joinedRoomId");
 
-const scanStatus = document.getElementById("scanStatus");
-const progressText = document.getElementById("progressText");
-const startBtn = document.getElementById("startBtn");
-const stopBtn = document.getElementById("stopBtn");
-
-// Load progress
-let progress = parseInt(localStorage.getItem("progress")) || 0;
-updateProgress();
-
-startBtn.onclick = startScanner;
-stopBtn.onclick = stopScanner;
-
-function updateProgress() {
-  progressText.innerText = `${progress} / ${totalTasks} Completed`;
+if (!teamId) {
+    alert("No team selected. Go back and start from your team.");
+    window.location.href = "team.html";
 }
 
-function startScanner() {
-  if (isScanning) return;
+let scanner      = null;
+let lastScanned  = "";
+let scanCooldown = false;
 
-  html5QrCode = new Html5Qrcode("reader");
+const statusText     = document.getElementById("status");
+const progressText   = document.getElementById("progress");
+const cluesContainer = document.getElementById("cluesContainer");
+const currentClueBox = document.getElementById("currentClue");
 
-  const config = {
-    fps: 10,
-    qrbox: { width: 250, height: 250 }
-  };
+// ── LOAD CLUES STATUS (per team) ─────────────────────────────
+function loadClues() {
+    fetch(`../api/get_clues_progress.php?team_id=${teamId}&_=${Date.now()}`)
+    .then(res => res.json())
+    .then(data => {
+        let html      = "";
+        let completed = 0;
+        const total   = data.length;
 
-  html5QrCode.start(
-    { facingMode: "environment" },
-    config,
-    (decodedText) => {
-      handleScan(decodedText);
+        data.forEach(clue => {
+            if (clue.completed == 1) {
+                html += `<div style="color:#3ddc84">✔ ${escapeHtml(clue.question_text)}</div>`;
+                completed++;
+            } else {
+                html += `<div style="opacity:0.4">🔒 Locked</div>`;
+            }
+        });
+
+        cluesContainer.innerHTML = html || "<div style='opacity:0.5'>No clues yet</div>";
+        progressText.innerHTML   = `${completed} / ${total} completed`;
+    })
+    .catch(() => {
+        cluesContainer.innerHTML = "<div style='color:red'>Failed to load clues</div>";
+    });
+}
+
+// ── ON QR SCANNED ─────────────────────────────────────────────
+function onScanSuccess(decodedText) {
+
+    // Prevent firing multiple times for same QR
+    if (scanCooldown || decodedText === lastScanned) return;
+    scanCooldown = true;
+    lastScanned  = decodedText;
+    setTimeout(() => { scanCooldown = false; }, 3000);
+
+    statusText.innerHTML = "Checking clue...";
+
+    fetch("../api/scan_qr.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+            qr_code: decodedText,
+            team_id: parseInt(teamId)
+        })
+    })
+    .then(res => res.json())
+    .then(data => {
+        if (data.success) {
+            statusText.innerHTML     = "✔ Clue found!";
+            currentClueBox.innerHTML = "📍 " + escapeHtml(data.clue);
+            progressText.innerHTML   = `${data.completed} / ${data.total} completed`;
+
+            if (data.completed === data.total) {
+                statusText.innerHTML = "🎉 All clues found! Quest complete!";
+            }
+
+            loadClues();
+        } else {
+            statusText.innerHTML = "Scanner running";
+            alert(data.message);
+        }
+    })
+    .catch(() => {
+        statusText.innerHTML = "Scanner running";
+        alert("Server error — try again");
+    });
+}
+
+// ── START SCANNER ─────────────────────────────────────────────
+document.getElementById("startBtn").onclick = function () {
+    if (scanner) return;
+    scanner = new Html5Qrcode("reader");
+    scanner.start(
+        { facingMode: "environment" },
+        { fps: 10, qrbox: 250 },
+        onScanSuccess
+    );
+    statusText.innerHTML = "Scanner running";
+};
+
+// ── STOP SCANNER ──────────────────────────────────────────────
+document.getElementById("stopBtn").onclick = function () {
+    if (scanner) {
+        scanner.stop().then(() => {
+            scanner = null;
+            statusText.innerHTML = "Scanner stopped";
+        });
     }
-  );
+};
 
-  isScanning = true;
-  scanStatus.innerText = "Scanner Started...";
+// ── HELPER ────────────────────────────────────────────────────
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
 }
 
-function handleScan(decodedText) {
-
-  if (!isScanning) return;
-
-  // Example validation:
-  if (decodedText.startsWith("TASK")) {
-
-    progress++;
-    if (progress > totalTasks) progress = totalTasks;
-
-    localStorage.setItem("progress", progress);
-    updateProgress();
-
-    scanStatus.innerText = "✅ Task Completed!";
-    scanStatus.style.color = "lime";
-
-  } else {
-    scanStatus.innerText = "❌ Invalid QR";
-    scanStatus.style.color = "red";
-  }
-
-  setTimeout(() => {
-    scanStatus.style.color = "#f5c542";
-  }, 2000);
-}
-
-async function stopScanner() {
-  if (html5QrCode && isScanning) {
-    await html5QrCode.stop();
-    isScanning = false;
-    scanStatus.innerText = "Scanner Stopped.";
-  }
-}
+// Load clues on page open
+loadClues();

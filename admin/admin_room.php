@@ -1,84 +1,111 @@
 <?php
 session_start();
+
 if (!isset($_SESSION["admin"])) {
-    header("Location: ../index.php");
+    header("Location: admin_login.php");
     exit;
 }
+
+include "../api/db.php";
 ?>
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Admin Room</title>
-    <link rel="stylesheet" href="admin_room.css">
+<title>Admin Room</title>
+<link rel="stylesheet" href="admin_room.css">
 </head>
 <body>
 
-<h1 class="title">ADMIN ROOM</h1>
+<div class="container">
 
-<div class="form">
-    <input
-        type="text"
-        id="roomInput"
-        class="input-box"
-        placeholder="Enter room name"
-    />
+<h1>ADMIN ROOM</h1>
 
-    <button class="btn" onclick="createRoom()">
-        Create Room
-    </button>
+<!-- CREATE ROOM -->
+<input type="text" id="roomName" placeholder="Enter room name">
+
+<button onclick="createRoom()">Create Room</button>
+
+<h2>Active Rooms</h2>
+
+<div id="roomList">
+
+<?php
+$result = mysqli_query($conn, "SELECT * FROM rooms ORDER BY id DESC");
+
+while ($row = mysqli_fetch_assoc($result)) {
+?>
+
+<div class="room-card">
+
+<div class="room-name">
+<?php echo $row["room_name"]; ?>
 </div>
 
-<h3 class="section-title">Active Rooms</h3>
-<div id="roomsContainer"></div>
+<button onclick="openQuestions(<?php echo $row['id']; ?>)">
+Manage Questions
+</button>
+
+</div>
+
+<?php } ?>
+
+</div>
+
+</div>
 
 <script>
-function createRoom() {
-    const input = document.getElementById("roomInput");
-    const roomName = input.value.trim();
 
-    if (!roomName) {
-        alert("Enter room name");
-        return;
-    }
+// OPEN QUESTIONS PAGE
+function openQuestions(roomId){
 
-    fetch("../api/create_room.php", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/x-www-form-urlencoded"
-        },
-        body: `room_name=${encodeURIComponent(roomName)}`
-    })
-    .then(() => {
-        input.value = "";
-        loadRooms();
-    });
+localStorage.setItem("admin_room_id", roomId);
+
+window.location.href = "questions.php";
+
 }
 
-function loadRooms() {
-    fetch("../api/get_active_rooms.php")
-        .then(res => res.json())
-        .then(rooms => {
-            const container = document.getElementById("roomsContainer");
-            container.innerHTML = "";
 
-            if (!rooms || rooms.length === 0) {
-                container.innerHTML = "<p>No active rooms</p>";
-                return;
-            }
+// CREATE ROOM
+function createRoom(){
 
-            rooms.forEach(room => {
-                const div = document.createElement("div");
-                div.className = "room";
-                div.textContent = room.room_name;
-                container.appendChild(div);
-            });
-        })
-        .catch(err => {
-            console.error("Error loading rooms:", err);
-        });
+const roomName = document.getElementById("roomName").value.trim();
+
+if(roomName==""){
+
+alert("Enter room name");
+return;
+
 }
 
-window.onload = loadRooms;
+fetch("../api/create_room.php",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:`room_name=${encodeURIComponent(roomName)}`
+
+})
+.then(res=>res.json())
+.then(data=>{
+
+if(data.success){
+
+location.reload();
+
+}else{
+
+alert("Failed to create room");
+
+}
+
+});
+
+}
+
 </script>
 
 </body>

@@ -1,16 +1,19 @@
 <?php
-require "db.php";
+include "db.php";
 
-$room = $_POST["room_name"] ?? "";
+$room_name = $_POST["room_name"];
 
-if (!$room) {
-    exit;
+if(!$room_name){
+
+echo json_encode(["success"=>false]);
+exit;
+
 }
 
-$stmt = $conn->prepare("INSERT INTO rooms (room_name) VALUES (?)");
-$stmt->bind_param("s", $room);
-$stmt->execute();
+mysqli_query($conn,"
+INSERT INTO rooms(room_name)
+VALUES('$room_name')
+");
 
-$stmt->close();
-$conn->close();
+echo json_encode(["success"=>true]);
 ?>
