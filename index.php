@@ -40,9 +40,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Login - Treasure Hunt</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Treasure Hunt</title>
     <link rel="stylesheet" href="index.css">
 </head>
 <body>
@@ -50,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <div class="login">
 
     <div class="logo">
-        <img src="./treasure2.png" alt="Treasure Hunt Logo" width="100%">
+        <img src="./treasure2.png" alt="Treasure Hunt Logo">
     </div>
 
     <div class="login-content">
@@ -60,17 +65,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="roll">
         <div class="slider" id="slider"></div>
-        <button class="tab1" id="userTab">USER</button>
+        <button class="tab1 active" id="userTab">USER</button>
         <button class="tab2" id="adminTab">ADMIN</button>
     </div>
 
     <!-- USER FORM -->
     <form method="POST" id="userForm">
         <div class="input-box">
-            <input name="username" placeholder="Username" required>
+            <input name="username" placeholder="Username" required autocomplete="username">
         </div>
         <div class="input-box">
-            <input name="password" type="password" placeholder="Password" required>
+            <input name="password" type="password" placeholder="Password" required autocomplete="current-password">
         </div>
         <button name="user_login" class="signin-btn">Sign In</button>
     </form>
@@ -78,10 +83,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <!-- ADMIN FORM -->
     <form method="POST" id="adminForm" style="display:none;">
         <div class="input-box">
-            <input name="username" placeholder="Admin Username" required>
+            <input name="username" placeholder="Admin Username" required autocomplete="username">
         </div>
         <div class="input-box">
-            <input name="key" type="password" placeholder="Secret Access Key" required>
+            <input name="key" type="password" placeholder="Secret Access Key" required autocomplete="current-password">
         </div>
         <button name="admin_login" class="signin-btn">Sign In</button>
     </form>
@@ -91,28 +96,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <?php if ($error): ?>
-        <div style="color:red;text-align:center;"><?php echo $error; ?></div>
+        <div class="error-msg"><?php echo htmlspecialchars($error); ?></div>
     <?php endif; ?>
 
 </div>
 
 <script>
-const userTab = document.getElementById("userTab");
-const adminTab = document.getElementById("adminTab");
-const slider = document.getElementById("slider");
-const userForm = document.getElementById("userForm");
+const userTab   = document.getElementById("userTab");
+const adminTab  = document.getElementById("adminTab");
+const slider    = document.getElementById("slider");
+const userForm  = document.getElementById("userForm");
 const adminForm = document.getElementById("adminForm");
 
 userTab.onclick = () => {
     slider.style.transform = "translateX(0)";
-    userForm.style.display = "block";
+    userForm.style.display  = "block";
     adminForm.style.display = "none";
+    userTab.classList.add("active");
+    adminTab.classList.remove("active");
 };
 
 adminTab.onclick = () => {
-    slider.style.transform = "translateX(100%)";
-    userForm.style.display = "none";
+    slider.style.transform  = "translateX(100%)";
+    userForm.style.display  = "none";
     adminForm.style.display = "block";
+    adminTab.classList.add("active");
+    userTab.classList.remove("active");
 };
 </script>
 

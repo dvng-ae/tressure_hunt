@@ -1,4 +1,3 @@
-// Get team_id from localStorage (set when user clicked Start on team page)
 const teamId = localStorage.getItem("teamId");
 const roomId = localStorage.getItem("joinedRoomId");
 
@@ -13,73 +12,84 @@ let scanCooldown = false;
 
 const statusText     = document.getElementById("status");
 const progressText   = document.getElementById("progress");
+const progressFill   = document.getElementById("progressFill");
 const cluesContainer = document.getElementById("cluesContainer");
 const currentClueBox = document.getElementById("currentClue");
 
-// ── LOAD CLUES STATUS (per team) ─────────────────────────────
+// ── UPDATE PROGRESS BAR ───────────────────────────────────────
+function setProgress(completed, total) {
+    progressText.textContent = `${completed} / ${total} completed`;
+    progressFill.style.width = total > 0 ? `${(completed / total) * 100}%` : "0%";
+}
+
+// ── LOAD CLUES STATUS ─────────────────────────────────────────
 function loadClues() {
     fetch(`../api/get_clues_progress.php?team_id=${teamId}&_=${Date.now()}`)
     .then(res => res.json())
     .then(data => {
-        let html      = "";
         let completed = 0;
         const total   = data.length;
 
+        cluesContainer.innerHTML = "";
+
+        if (!data.length) {
+            cluesContainer.innerHTML = `<div class="clue-item locked"><span class="clue-icon">🔒</span><span>No clues found for this room</span></div>`;
+            return;
+        }
+
         data.forEach(clue => {
+            const item = document.createElement("div");
             if (clue.completed == 1) {
-                html += `<div style="color:#3ddc84">✔ ${escapeHtml(clue.question_text)}</div>`;
+                item.className = "clue-item done";
+                item.innerHTML = `<span class="clue-icon">✅</span><span>${escapeHtml(clue.question_text)}</span>`;
                 completed++;
             } else {
-                html += `<div style="opacity:0.4">🔒 Locked</div>`;
+                item.className = "clue-item locked";
+                item.innerHTML = `<span class="clue-icon">🔒</span><span>Locked</span>`;
             }
+            cluesContainer.appendChild(item);
         });
 
-        cluesContainer.innerHTML = html || "<div style='opacity:0.5'>No clues yet</div>";
-        progressText.innerHTML   = `${completed} / ${total} completed`;
+        setProgress(completed, total);
     })
     .catch(() => {
-        cluesContainer.innerHTML = "<div style='color:red'>Failed to load clues</div>";
+        cluesContainer.innerHTML = `<div class="clue-item" style="color:#e74c3c">Failed to load clues</div>`;
     });
 }
 
 // ── ON QR SCANNED ─────────────────────────────────────────────
 function onScanSuccess(decodedText) {
-
-    // Prevent firing multiple times for same QR
     if (scanCooldown || decodedText === lastScanned) return;
     scanCooldown = true;
     lastScanned  = decodedText;
     setTimeout(() => { scanCooldown = false; }, 3000);
 
-    statusText.innerHTML = "Checking clue...";
+    statusText.textContent = "⏳ Checking clue…";
 
     fetch("../api/scan_qr.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-            qr_code: decodedText,
-            team_id: parseInt(teamId)
-        })
+        body: JSON.stringify({ qr_code: decodedText, team_id: parseInt(teamId) })
     })
     .then(res => res.json())
     .then(data => {
         if (data.success) {
-            statusText.innerHTML     = "✔ Clue found!";
-            currentClueBox.innerHTML = "📍 " + escapeHtml(data.clue);
-            progressText.innerHTML   = `${data.completed} / ${data.total} completed`;
+            statusText.textContent     = "✅ Clue found!";
+            currentClueBox.textContent = "📍 " + data.clue;
+            setProgress(data.completed, data.total);
 
             if (data.completed === data.total) {
-                statusText.innerHTML = "🎉 All clues found! Quest complete!";
+                statusText.textContent = "🎉 All clues found! Quest complete!";
             }
 
             loadClues();
         } else {
-            statusText.innerHTML = "Scanner running";
+            statusText.textContent = "Scanner running";
             alert(data.message);
         }
     })
     .catch(() => {
-        statusText.innerHTML = "Scanner running";
+        statusText.textContent = "Scanner running";
         alert("Server error — try again");
     });
 }
@@ -90,10 +100,13 @@ document.getElementById("startBtn").onclick = function () {
     scanner = new Html5Qrcode("reader");
     scanner.start(
         { facingMode: "environment" },
-        { fps: 10, qrbox: 250 },
+        { fps: 10, qrbox: { width: 250, height: 250 } },
         onScanSuccess
-    );
-    statusText.innerHTML = "Scanner running";
+    ).then(() => {
+        statusText.textContent = "📷 Scanner running";
+    }).catch(err => {
+        statusText.textContent = "Camera error: " + err;
+    });
 };
 
 // ── STOP SCANNER ──────────────────────────────────────────────
@@ -101,7 +114,7 @@ document.getElementById("stopBtn").onclick = function () {
     if (scanner) {
         scanner.stop().then(() => {
             scanner = null;
-            statusText.innerHTML = "Scanner stopped";
+            statusText.textContent = "Scanner stopped";
         });
     }
 };
@@ -109,10 +122,7 @@ document.getElementById("stopBtn").onclick = function () {
 // ── HELPER ────────────────────────────────────────────────────
 function escapeHtml(str) {
     return String(str)
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;");
+        .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
 }
 
-// Load clues on page open
 loadClues();

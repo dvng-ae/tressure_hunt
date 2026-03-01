@@ -1,50 +1,51 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="en">
 <head>
-
-<meta charset="UTF-8">
-
-<title>Treasure Hunt Scanner</title>
-
-<link rel="stylesheet" href="scanner.css">
-
-<script src="https://unpkg.com/html5-qrcode"></script>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <title>Scanner – Treasure Hunt</title>
+  <link rel="stylesheet" href="scanner.css">
+  <script src="https://unpkg.com/html5-qrcode"></script>
 </head>
-
 <body>
 
-<div class="card">
-
-<h1>Treasure Hunt Scanner</h1>
-
-<div id="progress">0 / 0 completed</div>
-
-<div id="status">Scanner Ready</div>
-
-<div id="reader"></div>
-
-<br>
-
-<button id="startBtn">Start Scanner</button>
-
-<button id="stopBtn">Stop Scanner</button>
-
-<br><br>
-
-<div id="currentClue">
-Current clue will appear here
+<div class="scan-header">
+  <h1>🔍 QR Scanner</h1>
 </div>
 
-<br>
+<!-- PROGRESS -->
+<div class="progress-wrap">
+  <div id="progress">0 / 0 completed</div>
+  <div class="progress-track">
+    <div class="progress-fill" id="progressFill"></div>
+  </div>
+</div>
 
-<div id="cluesContainer"></div>
+<!-- STATUS -->
+<div id="status">Scanner ready</div>
 
+<!-- SCANNER -->
+<div class="scanner-box">
+  <div id="reader"></div>
+</div>
+
+<!-- BUTTONS -->
+<div class="scan-btns">
+  <button id="startBtn">▶ Start</button>
+  <button id="stopBtn">■ Stop</button>
+</div>
+
+<!-- CURRENT CLUE -->
+<div id="currentClue">Scan a QR code to reveal your clue</div>
+
+<!-- CLUE LIST -->
+<div class="clues-section">
+  <div class="clues-title">Clue Progress</div>
+  <div id="cluesContainer"></div>
 </div>
 
 <script src="scanner.js"></script>
-
 </body>
-
 </html>

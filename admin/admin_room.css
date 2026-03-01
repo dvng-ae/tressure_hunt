@@ -1,90 +1,163 @@
-body{
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap');
 
-background:black;
-color:white;
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
 
-font-family:Arial;
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-height:100vh;
-
+:root {
+  --gold:   #f7c600;
+  --gold2:  #d6a800;
+  --bg:     #080600;
+  --card:   #130f04;
+  --card2:  #1c1608;
+  --border: rgba(247,198,0,0.2);
+  --text:   #f0e8d0;
+  --muted:  #9a8a6a;
+  --font-h: 'Cinzel', serif;
+  --font-b: 'Nunito', sans-serif;
 }
 
-.container{
-
-width:400px;
-
-background:rgba(0,0,0,0.7);
-
-padding:20px;
-
-border-radius:12px;
-
-box-shadow:0 0 20px gold;
-
+body {
+  background: var(--bg);
+  background-image: radial-gradient(ellipse at 20% 0%, rgba(247,198,0,0.07) 0%, transparent 60%);
+  min-height: 100vh;
+  min-height: 100dvh;
+  font-family: var(--font-b);
+  color: var(--text);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px;
+  padding-bottom: max(24px, env(safe-area-inset-bottom));
 }
 
-input{
-
-width:100%;
-
-padding:10px;
-
-margin-top:10px;
-
-border-radius:8px;
-
-border:2px solid gold;
-
-background:black;
-
-color:white;
-
+/* ── HEADER ───────────────────────────────────────────────── */
+.page-header {
+  width: 100%;
+  max-width: 520px;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
-button{
-
-margin-top:10px;
-
-padding:10px;
-
-width:100%;
-
-background:gold;
-
-border:none;
-
-border-radius:8px;
-
-cursor:pointer;
-
-font-weight:bold;
-
+.page-header h1 {
+  font-family: var(--font-h);
+  font-size: clamp(22px, 6vw, 30px);
+  color: var(--gold);
+  text-shadow: 0 0 20px rgba(247,198,0,0.4);
+  letter-spacing: 1px;
 }
 
-.room-card{
-
-margin-top:15px;
-
-padding:10px;
-
-border:2px solid gold;
-
-border-radius:10px;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
+/* ── CREATE ROOM ──────────────────────────────────────────── */
+.create-section {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
 }
 
-.room-name{
+.create-section input {
+  flex: 1;
+  padding: 14px 16px;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+  background: rgba(0,0,0,0.4);
+  color: var(--text);
+  font-family: var(--font-b);
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+}
 
-font-size:18px;
+.create-section input:focus { border-color: rgba(247,198,0,0.6); }
+.create-section input::placeholder { color: var(--muted); }
 
+.create-section button {
+  padding: 14px 20px;
+  border-radius: 50px;
+  border: none;
+  background: linear-gradient(180deg, var(--gold), var(--gold2));
+  color: #000;
+  font-family: var(--font-b);
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.create-section button:active { transform: scale(0.96); }
+
+/* ── SECTION TITLE ────────────────────────────────────────── */
+.section-label {
+  width: 100%;
+  max-width: 520px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+/* ── ROOM LIST ────────────────────────────────────────────── */
+#roomList {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ── ROOM CARD ────────────────────────────────────────────── */
+.room-card {
+  background: linear-gradient(135deg, var(--card2), var(--card));
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 16px 18px;
+}
+
+.room-name {
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+
+.room-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.room-actions button {
+  padding: 12px 10px;
+  border-radius: 50px;
+  border: none;
+  font-family: var(--font-b);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.15s, filter 0.15s;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.room-actions button:active { transform: scale(0.96); }
+
+.btn-manage {
+  background: linear-gradient(180deg, var(--gold), var(--gold2));
+  color: #000;
+}
+
+.btn-progress {
+  background: rgba(247,198,0,0.08);
+  color: var(--gold);
+  border: 1px solid rgba(247,198,0,0.3) !important;
+}
+
+.empty-state {
+  text-align: center;
+  color: var(--muted);
+  padding: 40px 0;
+  font-size: 14px;
 }
