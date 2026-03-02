@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="progression.css">
 </head>
 <body>
-
   <div class="page">
 
     <!-- HEADER -->
@@ -26,7 +25,7 @@
     </div>
 
     <!-- STATS BAR -->
-    <div class="stats-bar" id="statsBar">
+    <div class="stats-bar">
       <div class="stat-box">
         <span class="stat-num" id="statTotal">–</span>
         <span class="stat-label">Teams</span>
@@ -43,24 +42,36 @@
         <span class="stat-num" id="statWaiting">–</span>
         <span class="stat-label">Waiting</span>
       </div>
-      <div class="stat-box avg">
-        <span class="stat-num" id="statAvg">–</span>
-        <span class="stat-label">Avg</span>
+      <div class="stat-box elim-stat">
+        <span class="stat-num" id="statElim">–</span>
+        <span class="stat-label">Eliminated</span>
+      </div>
+      <div class="stat-box alive-stat">
+        <span class="stat-num" id="statAlive">–</span>
+        <span class="stat-label">Still In</span>
+      </div>
+    </div>
+
+    <!-- ELIMINATION TIMELINE -->
+    <div id="elimSection">
+      <div class="section-title">⚔️ Elimination Timeline</div>
+      <div class="elim-info-bar" id="elimInfoBar"></div>
+      <div class="elim-timeline" id="elimTimeline">
+        <div class="loading-msg">Loading…</div>
       </div>
     </div>
 
     <!-- LEADERBOARD -->
-    <div class="section-title">Leaderboard</div>
+    <div class="section-title" style="margin-top:24px">Leaderboard</div>
     <div id="leaderboard"></div>
 
-    <!-- CLUE GRID -->
+    <!-- CLUE MATRIX -->
     <div class="section-title" style="margin-top:28px">Clue Completion Matrix</div>
     <div id="matrixWrap" class="matrix-wrap">
       <div class="loading-msg">Loading…</div>
     </div>
 
   </div>
-
   <script src="progression.js"></script>
 </body>
 </html>

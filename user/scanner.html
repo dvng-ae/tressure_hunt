@@ -11,36 +11,52 @@
 </head>
 <body>
 
-<div class="scan-header">
-  <h1>🔍 QR Scanner</h1>
-</div>
-
-<!-- PROGRESS -->
-<div class="progress-wrap">
-  <div id="progress">0 / 0 completed</div>
-  <div class="progress-track">
-    <div class="progress-fill" id="progressFill"></div>
+<!-- WINNER OVERLAY -->
+<div id="winnerOverlay">
+  <canvas id="fireworksCanvas"></canvas>
+  <div class="winner-content">
+    <div class="winner-trophy">🏆</div>
+    <div class="winner-title">YOU WON!</div>
+    <div class="winner-sub">First team to complete all clues!</div>
+    <div class="winner-team" id="winnerTeamName"></div>
+    <div class="winner-score" id="winnerScore"></div>
+    <div class="winner-label">🎉 Congratulations! 🎉</div>
   </div>
 </div>
 
-<!-- STATUS -->
-<div id="status">Scanner ready</div>
-
-<!-- SCANNER -->
-<div class="scanner-box">
-  <div id="reader"></div>
+<!-- ELIMINATED OVERLAY -->
+<div id="eliminatedOverlay">
+  <div class="elim-skull">💀</div>
+  <div class="elim-title">ELIMINATED</div>
+  <div class="elim-subtitle">Your team has been knocked out of the race.</div>
+  <div class="elim-clue-info" id="elimClueInfo">Eliminated at Clue –</div>
+  <div class="elim-score" id="elimScore">0</div>
+  <div class="elim-score-label">Clues completed</div>
+  <div class="elim-divider"></div>
+  <div class="elim-message">You were the last team to scan that clue.<br>Better luck next time! 🗺️</div>
 </div>
 
-<!-- BUTTONS -->
+<div id="elimToast">☠️ Last to scan — your team is eliminated!</div>
+
+<div class="scan-header"><h1>🔍 QR Scanner</h1></div>
+
+<div class="progress-wrap">
+  <div id="progress">0 / 0 completed</div>
+  <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+</div>
+
+<div id="status">Scanner ready</div>
+<div id="elimBanner"></div>
+
+<div class="scanner-box"><div id="reader"></div></div>
+
 <div class="scan-btns">
   <button id="startBtn">▶ Start</button>
   <button id="stopBtn">■ Stop</button>
 </div>
 
-<!-- CURRENT CLUE -->
 <div id="currentClue">Scan a QR code to reveal your clue</div>
 
-<!-- CLUE LIST -->
 <div class="clues-section">
   <div class="clues-title">Clue Progress</div>
   <div id="cluesContainer"></div>

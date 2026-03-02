@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Nunito:wght@400;600;700;800&display=swap');
 
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
   --gold:   #f7c600;
@@ -8,18 +8,18 @@
   --bg:     #080600;
   --card:   #130f04;
   --card2:  #1c1608;
-  --border: rgba(247,198,0,0.2);
+  --border: rgba(247,198,0,0.22);
   --text:   #f0e8d0;
   --muted:  #9a8a6a;
   --green:  #22c55e;
-  --red:    #e74c3c;
+  --red:    #ef4444;
   --font-h: 'Cinzel', serif;
   --font-b: 'Nunito', sans-serif;
 }
 
 body {
   background: var(--bg);
-  background-image: radial-gradient(ellipse at 20% 0%, rgba(247,198,0,0.06) 0%, transparent 60%);
+  background-image: radial-gradient(ellipse at 20% 0%, rgba(247,198,0,0.07) 0%, transparent 60%);
   min-height: 100vh;
   min-height: 100dvh;
   font-family: var(--font-b);
@@ -27,32 +27,241 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 20px 16px;
-  padding-bottom: max(20px, env(safe-area-inset-bottom));
+  padding: 24px 16px 48px;
 }
 
-/* ── HEADER ───────────────────────────────────────────────── */
+/* ══ WINNER OVERLAY ══════════════════════════════════════════ */
+#winnerOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  background: rgba(0,0,0,0.93);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+#winnerOverlay.show { display: flex; }
+
+#fireworksCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.winner-content {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32px 24px;
+}
+
+.winner-trophy {
+  font-size: 88px;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 32px rgba(247,198,0,0.9));
+  animation: trophyIn 0.6s cubic-bezier(.36,.07,.19,.97) both;
+}
+@keyframes trophyIn {
+  0%   { transform: scale(0) rotate(-15deg); opacity: 0; }
+  60%  { transform: scale(1.15) rotate(5deg); opacity: 1; }
+  100% { transform: scale(1) rotate(0); }
+}
+
+.winner-title {
+  font-family: var(--font-h);
+  font-size: clamp(34px, 10vw, 54px);
+  font-weight: 900;
+  color: var(--gold);
+  letter-spacing: 4px;
+  margin-bottom: 10px;
+  animation: glow 1.5s ease-in-out infinite;
+}
+@keyframes glow {
+  0%,100% { text-shadow: 0 0 40px rgba(247,198,0,0.8); }
+  50%     { text-shadow: 0 0 70px rgba(247,198,0,1), 0 0 120px rgba(247,198,0,0.5); }
+}
+
+.winner-sub {
+  font-size: 15px;
+  color: #fde68a;
+  margin-bottom: 14px;
+  font-weight: 600;
+}
+
+.winner-team {
+  font-family: var(--font-h);
+  font-size: clamp(16px, 5vw, 24px);
+  color: var(--text);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.winner-score {
+  font-size: 13px;
+  color: var(--muted);
+  margin-bottom: 22px;
+  background: rgba(247,198,0,0.08);
+  border: 1px solid rgba(247,198,0,0.2);
+  border-radius: 50px;
+  padding: 5px 18px;
+}
+
+.winner-label {
+  font-size: 22px;
+  animation: bob 0.8s ease-in-out infinite alternate;
+}
+@keyframes bob {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-7px); }
+}
+
+/* ══ ELIMINATED OVERLAY ══════════════════════════════════════ */
+#eliminatedOverlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0,0,0,0.94);
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 24px;
+  text-align: center;
+}
+#eliminatedOverlay.show {
+  display: flex;
+  animation: fadeIn 0.4s ease;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.elim-skull {
+  font-size: 80px;
+  margin-bottom: 20px;
+  animation: skullPulse 1.5s ease-in-out infinite;
+}
+@keyframes skullPulse {
+  0%,100% { transform: scale(1); }
+  50%     { transform: scale(1.1); }
+}
+
+.elim-title {
+  font-family: var(--font-h);
+  font-size: clamp(28px, 8vw, 42px);
+  font-weight: 900;
+  color: var(--red);
+  text-shadow: 0 0 30px rgba(239,68,68,0.7);
+  letter-spacing: 3px;
+  margin-bottom: 12px;
+}
+
+.elim-subtitle {
+  font-size: 15px;
+  color: #fca5a5;
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+
+.elim-clue-info {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 24px;
+  background: rgba(239,68,68,0.08);
+  border: 1px solid rgba(239,68,68,0.2);
+  border-radius: 10px;
+  padding: 8px 16px;
+}
+
+.elim-score {
+  font-size: 52px;
+  font-weight: 900;
+  font-family: var(--font-h);
+  color: var(--gold);
+  margin-bottom: 4px;
+}
+
+.elim-score-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin-bottom: 22px;
+}
+
+.elim-divider {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--red), transparent);
+  margin: 0 auto 22px;
+}
+
+.elim-message {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 280px;
+}
+
+#elimToast {
+  display: none;
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  background: rgba(239,68,68,0.15);
+  border: 1px solid rgba(239,68,68,0.5);
+  border-radius: 50px;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 700;
+  color: #fca5a5;
+  white-space: nowrap;
+}
+
+#elimBanner {
+  display: none;
+  width: 100%;
+  max-width: 480px;
+  background: rgba(239,68,68,0.12);
+  border: 1px solid rgba(239,68,68,0.4);
+  border-radius: 16px;
+  padding: 14px;
+  text-align: center;
+  margin-bottom: 16px;
+  color: #fca5a5;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* ══ HEADER ══════════════════════════════════════════════════ */
 .scan-header {
   width: 100%;
   max-width: 480px;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 22px;
 }
-
 .scan-header h1 {
   font-family: var(--font-h);
-  font-size: clamp(20px, 5vw, 26px);
+  font-size: clamp(22px, 6vw, 30px);
   color: var(--gold);
-  text-shadow: 0 0 20px rgba(247,198,0,0.4);
+  text-shadow: 0 0 24px rgba(247,198,0,0.5);
 }
 
-/* ── PROGRESS BAR ─────────────────────────────────────────── */
+/* ══ PROGRESS ════════════════════════════════════════════════ */
 .progress-wrap {
   width: 100%;
   max-width: 480px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
-
 #progress {
   font-size: 14px;
   font-weight: 700;
@@ -60,14 +269,12 @@ body {
   text-align: center;
   margin-bottom: 8px;
 }
-
 .progress-track {
   height: 8px;
   background: rgba(255,255,255,0.06);
   border-radius: 100px;
   overflow: hidden;
 }
-
 .progress-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--gold2), var(--gold));
@@ -76,7 +283,7 @@ body {
   width: 0%;
 }
 
-/* ── STATUS ───────────────────────────────────────────────── */
+/* ══ STATUS ══════════════════════════════════════════════════ */
 #status {
   width: 100%;
   max-width: 480px;
@@ -84,11 +291,11 @@ body {
   font-size: 14px;
   font-weight: 600;
   color: var(--muted);
-  margin-bottom: 16px;
-  min-height: 20px;
+  margin-bottom: 14px;
+  min-height: 22px;
 }
 
-/* ── SCANNER BOX ──────────────────────────────────────────── */
+/* ══ SCANNER BOX ═════════════════════════════════════════════ */
 .scanner-box {
   width: 100%;
   max-width: 480px;
@@ -96,60 +303,44 @@ body {
   overflow: hidden;
   border: 2px solid var(--border);
   background: #000;
-  margin-bottom: 16px;
-  position: relative;
+  margin-bottom: 14px;
+  box-shadow: 0 0 30px rgba(247,198,0,0.08);
 }
+#reader { width: 100%; }
+#reader > div    { border: none !important; }
+#reader video    { width: 100% !important; border-radius: 0 !important; display: block !important; }
+#reader img      { display: none !important; }
 
-#reader {
-  width: 100%;
-}
-
-/* Override html5-qrcode default styles */
-#reader > div { border: none !important; }
-#reader video { width: 100% !important; border-radius: 0 !important; }
-#reader img { display: none !important; }
-#qr-shaded-region { border-color: var(--gold) !important; }
-
-/* ── SCAN BUTTONS ─────────────────────────────────────────── */
+/* ══ BUTTONS ═════════════════════════════════════════════════ */
 .scan-btns {
   width: 100%;
   max-width: 480px;
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
 }
-
 .scan-btns button {
-  padding: 14px;
+  padding: 15px;
   border-radius: 50px;
   border: none;
   font-family: var(--font-b);
   font-weight: 800;
-  font-size: 14px;
+  font-size: 15px;
   cursor: pointer;
-  transition: transform 0.15s, filter 0.15s;
+  transition: transform 0.15s, opacity 0.15s;
   -webkit-tap-highlight-color: transparent;
 }
+.scan-btns button:active   { transform: scale(0.95); }
+.scan-btns button:disabled { opacity: 0.4; cursor: not-allowed; }
+#startBtn { background: linear-gradient(180deg, var(--gold), var(--gold2)); color: #000; }
+#stopBtn  { background: rgba(255,255,255,0.09); color: var(--text); border: 1px solid rgba(255,255,255,0.13); }
 
-.scan-btns button:active { transform: scale(0.96); }
-
-#startBtn {
-  background: linear-gradient(180deg, var(--gold), var(--gold2));
-  color: #000;
-}
-
-#stopBtn {
-  background: rgba(255,255,255,0.08);
-  color: var(--text);
-  border: 1px solid rgba(255,255,255,0.12);
-}
-
-/* ── CURRENT CLUE ─────────────────────────────────────────── */
+/* ══ CURRENT CLUE ════════════════════════════════════════════ */
 #currentClue {
   width: 100%;
   max-width: 480px;
-  padding: 16px;
+  padding: 18px 16px;
   border: 1px solid var(--border);
   border-radius: 16px;
   background: linear-gradient(135deg, var(--card2), var(--card));
@@ -157,55 +348,44 @@ body {
   font-weight: 600;
   color: var(--gold);
   text-align: center;
-  margin-bottom: 16px;
-  line-height: 1.5;
-  min-height: 56px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+  min-height: 58px;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(247,198,0,0.08);
 }
 
-/* ── CLUE LIST ────────────────────────────────────────────── */
-.clues-section {
-  width: 100%;
-  max-width: 480px;
-}
-
+/* ══ CLUE LIST ═══════════════════════════════════════════════ */
+.clues-section { width: 100%; max-width: 480px; }
 .clues-title {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 2px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2.5px;
   text-transform: uppercase;
   color: var(--muted);
   margin-bottom: 10px;
   padding-left: 4px;
 }
-
-#cluesContainer {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
+#cluesContainer { display: flex; flex-direction: column; gap: 8px; }
 .clue-item {
-  padding: 12px 16px;
+  padding: 13px 16px;
   border-radius: 12px;
   font-size: 14px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   gap: 10px;
 }
-
 .clue-item.done {
   background: rgba(34,197,94,0.1);
   border: 1px solid rgba(34,197,94,0.25);
   color: #4ade80;
 }
-
 .clue-item.locked {
   background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.07);
   color: var(--muted);
 }
-
 .clue-icon { flex-shrink: 0; font-size: 16px; }
